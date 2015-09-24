@@ -71,7 +71,12 @@ class AceEditorExtension extends \Twig_Extension
 
     public function includeAceEditor()
     {
-        if (!$this->environment->hasExtension('assets')) {
+        $extension = "";
+        if ($this->environment->hasExtension('asset')) {
+            $extension = "asset";
+        } elseif ($this->environment->hasExtension('assets')) {
+            $extension = "assets";
+        } else {
             return;
         }
 
@@ -81,7 +86,7 @@ class AceEditorExtension extends \Twig_Extension
 
         if (!$this->ckeditorIncluded) {
             $jsPath = $this->environment
-                ->getExtension('assets')
+                ->getExtension($extension)
                 ->getAssetUrl($this->basePath . '/' . $this->mode);
 
             echo sprintf('<script src="%s" charset="utf-8"></script>', $jsPath);
