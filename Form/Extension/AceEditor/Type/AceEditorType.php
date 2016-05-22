@@ -126,7 +126,7 @@ class AceEditorType extends AbstractType
      */
     public function getParent()
     {
-        return 'textarea';
+        return \Symfony\Component\Form\Extension\Core\Type\TextareaType::class;
     }
 
     /**
@@ -139,7 +139,7 @@ class AceEditorType extends AbstractType
             use Norzechowicz\AceEditorBundle\Form\Extension\AceEditor\Type\AceEditorType;
             $builder->add('wibble', AceEditorType::class);
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'ace_editor';
     }
