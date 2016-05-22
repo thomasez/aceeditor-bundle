@@ -31,7 +31,12 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->booleanNode('autoinclude')->defaultTrue()->end()
                 ->scalarNode('base_path')->defaultValue('bundles/norzechowiczaceeditor/ace')->end()
-                ->booleanNode('debug')->defaultFalse()->end()
+                ->booleanNode('jsoneditor_autoinclude')->defaultTrue()->end()
+                ->scalarNode('base_path_jsoneditor')->defaultValue('bundles/norzechowiczaceeditor/jsoneditor')->end()
+                ->booleanNode('flexijsoneditor_autoinclude')->defaultTrue()->end()
+                ->scalarNode('base_path_flexijsoneditor')->defaultValue('bundles/norzechowiczaceeditor/flexijsoneditor')->end()
+                ->booleanNode('debug')->defaultTrue()->end()
+                // ->booleanNode('debug')->defaultFalse()->end()
                 ->booleanNode('noconflict')->defaultTrue()->end()
             ->end()
         ->end();

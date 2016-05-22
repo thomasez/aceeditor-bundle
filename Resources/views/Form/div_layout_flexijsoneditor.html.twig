@@ -1,0 +1,114 @@
+{% block flexijsoneditor_widget %}
+
+<div id="{{ id }}_flexijsoneditorbundle">
+{#
+<style scoped>
+* { all: default; }
+</style>
+#}
+<style scoped>
+        #legend {
+          display: inline;
+          margin-left: 30px;
+        }
+        #legend h2 {
+           display: inline;
+           font-size: 18px;
+           margin-right: 20px;
+        }
+        #legend a {
+          color: white;
+          margin-right: 20px;
+        }
+        #legend span {
+          padding: 2px 4px;
+          -webkit-border-radius: 5px;
+          -moz-border-radius: 5px;
+          border-radius: 5px;
+          color: white;
+          font-weight: bold;
+          text-shadow: 1px 1px 1px black;
+          background-color: black;
+        }
+        #legend .string  { background-color: #009408; }
+        #legend .array   { background-color: #2D5B89; }
+        #legend .object  { background-color: #E17000; }
+        #legend .number  { background-color: #497B8D; }
+        #legend .boolean { background-color: #B1C639; }
+        #legend .null    { background-color: #B1C639; }
+        #{{ id }}_expander {
+          cursor: pointer;
+          margin-right: 20px;
+        }
+</style>
+
+    {{ include_flexijsoneditor() }}
+<script type="text/javascript">
+var json = {% autoescape false %} {{ value }} {% endautoescape %};
+
+function printJSON() {
+    $('#{{ id }}').val(JSON.stringify(json));
+}
+
+function updateJSON(data) {
+    json = data;
+    printJSON();
+}
+
+function showPath(path) {
+    $('#path').text(path);
+}
+
+$(document).ready(function() {
+
+
+    $('#{{ id }}').change(function() {
+        var val = $('#{{ id }}').val();
+
+        if (val) {
+            try { json = JSON.parse(val); }
+            catch (e) { alert('Error in parsing json. ' + e); }
+        } else {
+            json = {};
+        }
+        
+        $('#{{ id }}_flexijsoneditor').jsonEditor(json, { change: updateJSON, propertyclick: showPath });
+    });
+
+    $('#{{ id }}_expander').click(function() {
+        var editor = $('#{{ id }}_flexijsoneditor');
+        editor.toggleClass('expanded');
+        $(this).text(editor.hasClass('expanded') ? 'Collapse' : 'Expand all');
+    });
+    
+    printJSON();
+    $('#{{ id }}_flexijsoneditor').jsonEditor(json, { change: updateJSON, propertyclick: showPath });
+});
+
+</script>
+
+<textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
+    </div>
+
+    <div id="legend">
+        <span class="array">array</span>
+        <span class="object">object</span>
+        <span class="string">string</span>
+        <span class="number">number</span>
+        <span class="boolean">boolean</span>
+        <span class="null">null</span>
+        <br />
+        <br />
+        <span id="{{ id }}_expander">Expand all</span>
+        <span>Remove item by deleting a property name.</span>
+    </div>
+<div class="json-editor" id="{{ id }}_flexijsoneditor" style="width: {{ width.value }}{{ width.unit }}; height: {{ height.value }}{{ height.unit }};" {% for attrname, attrvalue in flexijsoneditor_wrapper_attr %}{% if attrname == 'title' %}{{ attrname }}="{{ attrvalue|trans({}, translation_domain) }}" {% else %}{{ attrname }}="{{ attrvalue }}" {% endif %}{% endfor %}></div>
+    <script type="text/javascript">
+
+        var textarea = document.getElementById('{{ id }}');
+        textarea.style.visibility = 'hidden';        
+
+
+    </script>
+</div>
+{% endblock %}

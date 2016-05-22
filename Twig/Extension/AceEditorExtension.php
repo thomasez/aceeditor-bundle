@@ -44,14 +44,6 @@ class AceEditorExtension extends \Twig_Extension
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public function initRuntime(\Twig_Environment $environment)
-    {
-        $this->environment = $environment;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function getName()
@@ -65,12 +57,21 @@ class AceEditorExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'include_ace_editor' => new \Twig_Function_Method($this, 'includeAceEditor', array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction(
+                'include_ace_editor',
+                array($this, 'includeAceEditor'),
+                array(
+                    'is_safe' => array('html'),
+                    'needs_environment' => true
+                )
+            )
         );
     }
 
-    public function includeAceEditor()
+    public function includeAceEditor(\Twig_Environment $environment)
     {
+        $this->environment = $environment;
+
         $extension = "";
         if ($this->environment->hasExtension('asset')) {
             $extension = "asset";

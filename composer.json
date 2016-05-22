@@ -1,5 +1,8 @@
 {
-    "name": "norzechowicz/aceeditor-bundle",
+    "name": "thomasez/aceeditor-bundle",
+    "replace": {
+        "norzechowicz/aceeditor-bundle": "dev-master"
+    },
     "type": "symfony-bundle",
     "description": "Bundle that integrate excellent JavaScript ace editor into Symfony2 Form.",
     "keywords": ["ace", "editor", "symfony", "form", "bundle", "javascript"],
@@ -11,9 +14,9 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=5.5.9",
         "twig/twig": "~1.2",
-        "symfony/framework-bundle" :  "~2.1"
+        "symfony/framework-bundle" :  "^2.8"
     },
     "autoload": {
         "psr-0": { "Norzechowicz\\AceEditorBundle\\": "" }

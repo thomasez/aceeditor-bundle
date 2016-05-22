@@ -6,11 +6,19 @@
 
     <parameters>
         <parameter key="norzechowicz_ace_editor.form.type.aceeditor.class">Norzechowicz\AceEditorBundle\Form\Extension\AceEditor\Type\AceEditorType</parameter>
+        <parameter key="norzechowicz_ace_editor.form.type.jsoneditor.class">Norzechowicz\AceEditorBundle\Form\Extension\AceEditor\Type\JsonEditorType</parameter>
+        <parameter key="norzechowicz_ace_editor.form.type.flexijsoneditor.class">Norzechowicz\AceEditorBundle\Form\Extension\AceEditor\Type\FlexiJsonEditorType</parameter>
     </parameters>
 
     <services>
-        <service id="norzechowicz_ace_editor.form.type.ace_editor" class="%norzechowicz_ace_editor.form.type.aceeditor.class%" scope="request">
+        <service id="norzechowicz_ace_editor.form.type.ace_editor" class="%norzechowicz_ace_editor.form.type.aceeditor.class%" shared="false">
             <tag name="form.type" alias="ace_editor" />
+        </service>
+        <service id="norzechowicz_ace_editor.form.type.jsoneditor" class="%norzechowicz_ace_editor.form.type.jsoneditor.class%" shared="false">
+            <tag name="form.type" alias="jsoneditor" />
+        </service>
+        <service id="norzechowicz_ace_editor.form.type.jflexisoneditor" class="%norzechowicz_ace_editor.form.type.flexijsoneditor.class%" shared="false">
+            <tag name="form.type" alias="flexijsoneditor" />
         </service>
     </services>
 </container>

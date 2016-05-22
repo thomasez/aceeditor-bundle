@@ -15,7 +15,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class AceEditorType
@@ -32,7 +32,7 @@ class AceEditorType extends AbstractType
      *
      * @param \Symfony\Component\OptionsResolver\OptionsResolverInterface $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         // Remove id from ace editor wrapper attributes. Id must be generated.
         $wrapperAttrNormalizer = function (Options $options, $aceAttr) {
@@ -79,25 +79,21 @@ class AceEditorType extends AbstractType
             'highlight_active_line' => null
         ));
 
-        $resolver->setAllowedTypes(array(
-            'width' => array('integer', 'string', 'array'),
-            'height' => array('integer', 'string', 'array'),
-            'mode' => 'string',
-            'font_size' => 'integer',
-            'tab_size' => array('integer', 'null'),
-            'read_only' => array('bool', 'null'),
-            'use_soft_tabs' => array('bool', 'null'),
-            'use_wrap_mode' => array('bool', 'null'),
-            'show_print_margin' => array('bool', 'null'),
-            'show_invisibles' => array('bool', 'null'),
-            'highlight_active_line' => array('bool', 'null'),
-        ));
+        $resolver->setAllowedTypes('width', array('integer', 'string', 'array'));
+        $resolver->setAllowedTypes('height', array('integer', 'string', 'array'));
+        $resolver->setAllowedTypes('mode', 'string');
+        $resolver->setAllowedTypes('font_size', 'integer');
+        $resolver->setAllowedTypes('tab_size', array('integer', 'null'));
+        $resolver->setAllowedTypes('read_only', array('bool', 'null'));
+        $resolver->setAllowedTypes('use_soft_tabs', array('bool', 'null'));
+        $resolver->setAllowedTypes('use_wrap_mode', array('bool', 'null'));
+        $resolver->setAllowedTypes('show_print_margin', array('bool', 'null'));
+        $resolver->setAllowedTypes('show_invisibles', array('bool', 'null'));
+        $resolver->setAllowedTypes('highlight_active_line', array('bool', 'null'));
 
-        $resolver->setNormalizers(array(
-            'wrapper_attr' => $wrapperAttrNormalizer,
-            'width'        => $unitNormalizer,
-            'height'       => $unitNormalizer,
-        ));
+        $resolver->setNormalizer('wrapper_attr', $wrapperAttrNormalizer);
+        $resolver->setNormalizer('width' , $unitNormalizer);
+        $resolver->setNormalizer('height', $unitNormalizer);
     }
 
     /**
@@ -135,6 +131,13 @@ class AceEditorType extends AbstractType
 
     /**
      * {@inheritdoc}
+     */
+    /* This is deprecated and should be removed. When it's done you have 
+     * to replace:
+            $builder->add('wibble', 'ace_editor);
+       with: 
+            use Norzechowicz\AceEditorBundle\Form\Extension\AceEditor\Type\AceEditorType;
+            $builder->add('wibble', AceEditorType::class);
      */
     public function getName()
     {
