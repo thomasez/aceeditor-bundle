@@ -1,47 +1,53 @@
 <?php
 
-/**
- * This file is part of the AceEditorBundle.
- *
- * (c) Norbert Orzechowicz <norbert@orzechowicz.pl>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Norzechowicz\AceEditorBundle\Twig\Extension;
 
-/**
- * @author Norbert Orzechowicz <norbert@fsi.pl>
- * Hacked from AceEditorExtension by Thomas Lundquist <github@bisonlab.no>
- */
+use Symfony\Bridge\Twig\Extension\AssetExtension;
+
 class JsonEditorExtension extends \Twig_Extension
+class AceEditorExtension extends \Twig_Extension implements \Twig_Extension_InitRuntimeInterface
 {
     /**
-     * @var boolean
+     * Should we include the ace.js?
+     * If false, user should include it it's own way.
+     *
+     * @var bool
      */
-    protected $editorIncluded;
+    private $editorIncluded;
 
     /**
      * @var string
      */
-    protected $basePath;
+    private $basePath;
 
     /**
      * @var string
      */
-    protected $mode;
+    private $mode;
 
     /**
      * @var \Twig_Environment
      */
     private $environment;
 
+    /**
+     * @param bool   $autoinclude means if the bundle should inclue the JS
+     * @param string $basePath
+     * @param string $mode
+     */
     public function __construct($autoinclude, $basePath, $mode)
     {
-        $this->ckeditorIncluded = $autoinclude;
+        $this->editorIncluded = !$autoinclude;
         $this->basePath = rtrim($basePath, '/');
         $this->mode = ltrim($mode, '/');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function initRuntime(\Twig_Environment $environment)
+    {
+        $this->environment = $environment;
     }
 
     /**
@@ -57,23 +63,27 @@ class JsonEditorExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
-            new \Twig_SimpleFunction(
-                'include_jsoneditor',
-                array($this, 'includeJsonEditor'),
-                array(
-                    'is_safe' => array('html'),
-                    'needs_environment' => true
-                )
-            )
-        );
+        return [
+            'include_jsoneditor' => new \Twig_SimpleFunction('include_ace_editor',
+                [$this, 'includeJsonEditor'],
+                ['is_safe' => ['html'], 'needs_environment' => true]),
+        ];
     }
 
-    // public function includeJsonEditor()
-    public function includeJsonEditor(\Twig_Environment $environment)
+    /**
+     * Echoes the <script> tag.
+     *
+     * @throws \LogicException if asset extension is not available and Ace editor must be included
+     */
+    public function includeJsonEditor()
     {
-        $this->environment = $environment;
+        if ($this->editorIncluded) {
+            return;
+        }
 
+        if (!$this->environment->hasExtension(AssetExtension::class)) {
+            throw new \LogicException('"asset" extension is mandatory if you don\'t include Ace editor by yourself.');
+/* May need this instead 
         $extension = "";
         if ($this->environment->hasExtension('asset')) {
             $extension = "asset";
@@ -82,19 +92,17 @@ class JsonEditorExtension extends \Twig_Extension
         } else {
             return;
         }
+*/
 
         if (!$this->editorIncluded) {
+            foreach (['jsoneditor', 'ext-language_tools'] as $file) {
+                /** @var AssetExtension $extension */
+                $extension = $this->environment->getExtension(AssetExtension::class);
+                $jsPath = $extension->getAssetUrl($this->basePath.'/'.$this->mode.'/'.$file.'.js');
+
+                printf('<script src="%s" charset="utf-8" type="text/javascript"></script>', $jsPath);
+            }
             $this->editorIncluded = true;
-        }
-
-        if (!$this->ckeditorIncluded) {
-            $jsPath = $this->environment
-                ->getExtension($extension)
-                ->getAssetUrl($this->basePath);
-
-            echo sprintf('<link href="%s" rel="stylesheet" type="text/css">', $jsPath . '/jsoneditor.min.css');
-            echo sprintf('<script src="%s" charset="utf-8"></script>', $jsPath . '/' . $this->mode);
-            $this->ckeditorIncluded = true;
         }
     }
 }
