@@ -52,8 +52,8 @@ final class JsonEditorType extends AbstractType
             'jsoneditor_wrapper_attr' => array(),
             'width' => 200,
             'height' => 200,
-            'font_size' => 12,
-        ));
+            'font_size' => 12
+        ]);
 
         $optionAllowedTypes = [
             'width' => ['integer', 'string', 'array'],
