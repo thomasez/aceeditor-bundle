@@ -14,7 +14,6 @@
             heightUnit = '{{ height.unit }}';
 
         textarea.style.visibility = 'hidden';
-        textarea.style.display = 'block';
         textarea.style.width = width + widthUnit;
         textarea.style.height = height + heightUnit;
 
@@ -24,6 +23,9 @@
         editorElm.style.marginTop = -(height) + heightUnit;
 
         editor.setTheme("{{ theme }}");
+        {% if keyboard_handler is not null %}
+        editor.setKeyboardHandler("{{ keyboard_handler }}");
+        {% endif %}
         editor.getSession().setMode("{{ mode }}");
         editor.getSession().setValue(textarea.value);
 
@@ -48,10 +50,27 @@
         {% if use_wrap_mode is not null %}
         editor.getSession().setUseWrapMode({{ use_wrap_mode ? 'true' : 'false' }});
         {% endif %}
+        editor.setOptions({
+            {% if options_enable_basic_autocompletion is not null %}
+                enableBasicAutocompletion: {{ options_enable_basic_autocompletion ? 'true' : 'false' }},
+            {% endif %}
+            {% if options_enable_live_autocompletion is not null %}
+                enableLiveAutocompletion: {{ options_enable_live_autocompletion ? 'true' : 'false' }},
+            {% endif %}
+            {% if options_enable_snippets is not null %}
+                enableSnippets: {{ options_enable_snippets ? 'true' : 'false' }},
+            {% endif %}
+        });
 
         editor.getSession().on('change', function(){
             textarea.value = editor.getSession().getValue();
         });
+
+        if (typeof window.aceEditors === 'undefined') {
+            window.aceEditors = {};
+        }
+
+        window.aceEditors['{{ id }}'] = editor;
     }());
     </script>
     {% endspaceless %}

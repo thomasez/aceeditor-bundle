@@ -1,23 +1,16 @@
 <?xml version="1.0" ?>
-
 <container xmlns="http://symfony.com/schema/dic/services"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <parameters>
-        <parameter key="norzechowicz_ace_editor.form.type.aceeditor.class">Norzechowicz\AceEditorBundle\Form\Extension\AceEditor\Type\AceEditorType</parameter>
-        <parameter key="norzechowicz_ace_editor.form.type.jsoneditor.class">Norzechowicz\AceEditorBundle\Form\Extension\AceEditor\Type\JsonEditorType</parameter>
-        <parameter key="norzechowicz_ace_editor.form.type.flexijsoneditor.class">Norzechowicz\AceEditorBundle\Form\Extension\AceEditor\Type\FlexiJsonEditorType</parameter>
-    </parameters>
-
     <services>
-        <service id="norzechowicz_ace_editor.form.type.ace_editor" class="%norzechowicz_ace_editor.form.type.aceeditor.class%" shared="false">
+        <service id="norzechowicz_ace_editor.form.type.ace_editor" class="Norzechowicz\AceEditorBundle\Form\Extension\AceEditor\Type\AceEditorType">
             <tag name="form.type" alias="ace_editor" />
         </service>
-        <service id="norzechowicz_ace_editor.form.type.jsoneditor" class="%norzechowicz_ace_editor.form.type.jsoneditor.class%" shared="false">
+        <service id="norzechowicz_ace_editor.form.type.jsoneditor" class="Norzechowicz\AceEditorBundle\Form\Extension\AceEditor\Type\JsonEditorType">
             <tag name="form.type" alias="jsoneditor" />
         </service>
-        <service id="norzechowicz_ace_editor.form.type.jflexisoneditor" class="%norzechowicz_ace_editor.form.type.flexijsoneditor.class%" shared="false">
+        <service id="norzechowicz_ace_editor.form.type.flexijsoneditor" class="Norzechowicz\AceEditorBundle\Form\Extension\AceEditor\Type\FlexiJsonEditorType">
             <tag name="form.type" alias="flexijsoneditor" />
         </service>
     </services>
