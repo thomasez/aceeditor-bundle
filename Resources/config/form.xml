@@ -10,8 +10,5 @@
         <service id="norzechowicz_ace_editor.form.type.jsoneditor" class="Norzechowicz\AceEditorBundle\Form\Extension\AceEditor\Type\JsonEditorType">
             <tag name="form.type" alias="jsoneditor" />
         </service>
-        <service id="norzechowicz_ace_editor.form.type.flexijsoneditor" class="Norzechowicz\AceEditorBundle\Form\Extension\AceEditor\Type\FlexiJsonEditorType">
-            <tag name="form.type" alias="flexijsoneditor" />
-        </service>
     </services>
 </container>

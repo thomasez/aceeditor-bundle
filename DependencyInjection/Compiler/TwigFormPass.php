@@ -17,7 +17,6 @@ class TwigFormPass implements CompilerPassInterface
             array(
             'NorzechowiczAceEditorBundle:Form:div_layout_ace.html.twig',
             'NorzechowiczAceEditorBundle:Form:div_layout_jsoneditor.html.twig',
-            'NorzechowiczAceEditorBundle:Form:div_layout_flexijsoneditor.html.twig',
             ),
             $container->getParameter('twig.form.resources')
         ));

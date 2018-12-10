@@ -49,8 +49,5 @@ class NorzechowiczAceEditorExtension extends Extension
         $container->setParameter('norzechowicz_ace_editor.options.base_path_jsoneditor', $config['base_path_jsoneditor']);
         $mode_jsoneditor = ($config['debug']) ? 'jsoneditor.js' : 'jsoneditor.min.js';
         $container->setParameter('norzechowicz_ace_editor.options.mode_jsoneditor', $mode_jsoneditor);
-
-        $container->setParameter('norzechowicz_ace_editor.options.flexijsoneditor_autoinclude', $config['flexijsoneditor_autoinclude']);
-        $container->setParameter('norzechowicz_ace_editor.options.base_path_flexijsoneditor', $config['base_path_flexijsoneditor']);
     }
 }

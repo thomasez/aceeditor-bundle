@@ -17,10 +17,5 @@
             <argument>%norzechowicz_ace_editor.options.base_path_jsoneditor%</argument>
             <argument>%norzechowicz_ace_editor.options.mode_jsoneditor%</argument>
         </service>
-        <service id="norzechowicz_ace_editor.twig.form_extension_flexijsoneditor" class="Norzechowicz\AceEditorBundle\Twig\Extension\FlexiJsonEditorExtension">
-            <tag name="twig.extension" />
-            <argument>%norzechowicz_ace_editor.options.flexijsoneditor_autoinclude%</argument>
-            <argument>%norzechowicz_ace_editor.options.base_path_flexijsoneditor%</argument>
-        </service>
     </services>
 </container>
