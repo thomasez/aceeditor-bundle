@@ -1,6 +1,6 @@
 <?php
 
-namespace Norzechowicz\AceEditorBundle\Form\Extension\AceEditor\Type;
+namespace Norzechowicz\AceEditorBundle\Form\Extension\JsonEditor\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -49,7 +49,7 @@ final class JsonEditorType extends AbstractType
 
         $resolver->setDefaults([
             'required' => false,
-            'jsoneditor_wrapper_attr' => array(),
+            'wrapper_attr' => [],
             'width' => 200,
             'height' => 200,
             'font_size' => 12
@@ -65,7 +65,7 @@ final class JsonEditorType extends AbstractType
         }
 
         $optionNormalizer = [
-            'jsoneditor_wrapper_attr' => $wrapperAttrNormalizer,
+            'wrapper_attr' => $wrapperAttrNormalizer,
             'width' => $unitNormalizer,
             'height' => $unitNormalizer,
         ];
@@ -84,7 +84,7 @@ final class JsonEditorType extends AbstractType
         $view->vars = array_merge(
             $view->vars,
             [
-                'jsoneditor_wrapper_attr' => $options['jsoneditor_wrapper_attr'],
+                'wrapper_attr' => $options['wrapper_attr'],
                 'width' => $options['width'],
                 'height' => $options['height'],
                 'font_size' => $options['font_size'],

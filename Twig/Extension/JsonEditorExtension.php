@@ -46,6 +46,7 @@ class JsonEditorExtension extends \Twig_Extension implements \Twig_Extension_Ini
      */
     public function initRuntime(\Twig_Environment $environment)
     {
+error_log("initRuntimeJson");
         $this->environment = $environment;
     }
 
@@ -65,8 +66,11 @@ class JsonEditorExtension extends \Twig_Extension implements \Twig_Extension_Ini
         return [
             'include_jsoneditor' => new \Twig_SimpleFunction('include_jsoneditor',
                 [$this, 'includeJsonEditor'],
-                ['is_safe' => ['html'], 'needs_environment' => true]),
+                ['is_safe' => ['html']]
+                ),
         ];
+                // 'needs_environment' => true]
+                // ['is_safe' => ['html'], 'needs_environment' => true]),
     }
 
     /**
@@ -76,12 +80,14 @@ class JsonEditorExtension extends \Twig_Extension implements \Twig_Extension_Ini
      */
     public function includeJsonEditor()
     {
+error_log("includeJsonEditor");
         if ($this->editorIncluded) {
+error_log("editorIncluded");
             return;
         }
 
         if (!$this->environment->hasExtension(AssetExtension::class)) {
-            throw new \LogicException('"asset" extension is mandatory if you don\'t include Ace editor by yourself.');
+            throw new \LogicException('"asset" extension is mandatory if you don\'t include Json editor by yourself.');
         }
 
 /* May need this instead 
@@ -96,7 +102,7 @@ class JsonEditorExtension extends \Twig_Extension implements \Twig_Extension_Ini
 */
 
         if (!$this->editorIncluded) {
-            foreach (['jsoneditor', 'ext-language_tools'] as $file) {
+            foreach (['jsoneditor'] as $file) {
                 /** @var AssetExtension $extension */
                 $extension = $this->environment->getExtension(AssetExtension::class);
                 $jsPath = $extension->getAssetUrl($this->basePath.'/'.$this->mode.'/'.$file.'.js');

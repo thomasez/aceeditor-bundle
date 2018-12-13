@@ -41,13 +41,12 @@ class NorzechowiczAceEditorExtension extends Extension
 
         $mode = 'src'.($debug ? '' : '-min').($config['noconflict'] ? '-noconflict' : '');
 
-        $container->setParameter('norzechowicz_ace_editor.options.autoinclude', $config['autoinclude']);
-        $container->setParameter('norzechowicz_ace_editor.options.base_path', $config['base_path']);
-        $container->setParameter('norzechowicz_ace_editor.options.mode', $mode);
+        $container->setParameter('norzechowicz_ace_editor.options.autoinclude_ace_editor', $config['autoinclude_ace_editor']);
+        $container->setParameter('norzechowicz_ace_editor.options.base_path_ace_editor', $config['base_path_ace_editor']);
+        $container->setParameter('norzechowicz_ace_editor.options.mode_ace_editor', $mode);
 
-        $container->setParameter('norzechowicz_ace_editor.options.jsoneditor_autoinclude', $config['jsoneditor_autoinclude']);
+        $container->setParameter('norzechowicz_ace_editor.options.autoinclude_jsoneditor', $config['autoinclude_jsoneditor']);
         $container->setParameter('norzechowicz_ace_editor.options.base_path_jsoneditor', $config['base_path_jsoneditor']);
-        $mode_jsoneditor = ($config['debug']) ? 'jsoneditor.js' : 'jsoneditor.min.js';
-        $container->setParameter('norzechowicz_ace_editor.options.mode_jsoneditor', $mode_jsoneditor);
+        $container->setParameter('norzechowicz_ace_editor.options.mode_jsoneditor', $mode);
     }
 }

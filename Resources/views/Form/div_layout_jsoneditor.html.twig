@@ -1,15 +1,8 @@
 {% block jsoneditor_widget %}
-
     {% spaceless %}
-<div id="jsoneditorbundle">
-<style scoped>
-* { all: default; }
-</style>
+    <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
+    <div id="{{ id }}_jsoneditor"  style="width: {{ width.value }}{{ width.unit }}; height: {{ height.value }}{{ height.unit }};" {% for attrname, attrvalue in jsoneditor_wrapper_attr %}{% if attrname == 'title' %}{{ attrname }}="{{ attrvalue|trans({}, translation_domain) }}" {% else %}{{ attrname }}="{{ attrvalue }}" {% endif %}{% endfor %}></div>
     {{ include_jsoneditor() }}
-<!--     <textarea {{ block('widget_attributes') }}>{{ value }}</textarea> -->
-    <div id="{{ id }}_jsoneditor"  style="width: {{ width.value }}{{ width.unit }}; height: {{ height.value }}{{ height.unit }};" {% for attrname, attrvalue in jsoneditor_wrapper_attr %}{% if attrname == 'title' %}{{ attrname }}="{{ attrvalue|trans({}, translation_domain) }}" {% else %}{{ attrname }}="{{ attrvalue }}" {% endif %}{% endfor %}>
-    </div>
-
     <script type="text/javascript">
         // create the editor
         var container = document.getElementById("{{ id }}_jsoneditor");

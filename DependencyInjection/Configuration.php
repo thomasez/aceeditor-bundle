@@ -14,13 +14,14 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->booleanNode('autoinclude')->defaultTrue()->end()
-                ->scalarNode('base_path')->defaultValue('bundles/norzechowiczaceeditor/ace')->end()
-                ->booleanNode('jsoneditor_autoinclude')->defaultTrue()->end()
+                ->booleanNode('autoinclude_ace_editor')->defaultTrue()->end()
+                ->scalarNode('base_path_ace_editor')->defaultValue('bundles/norzechowiczaceeditor/ace')->end()
+                ->booleanNode('autoinclude_jsoneditor')->defaultTrue()->end()
                 ->scalarNode('base_path_jsoneditor')->defaultValue('bundles/norzechowiczaceeditor/jsoneditor')->end()
-                ->booleanNode('debug')->defaultTrue()->end()
-                // ->booleanNode('debug')->defaultFalse()->end()
-                ->booleanNode('noconflict')->defaultTrue()->end()
+                ->booleanNode('debug')->defaultFalse()->end()
+                ->booleanNode('noconflict')->defaultFalse()->end()
+                // ->booleanNode('debug')->defaultTrue()->end()
+                // ->booleanNode('noconflict')->defaultTrue()->end()
             ->end()
         ->end();
 
