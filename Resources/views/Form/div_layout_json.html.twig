@@ -1,0 +1,51 @@
+{% block json_editor_widget %}
+    {% spaceless %}
+    <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
+    <div id="{{ id }}_json" {% for attrname, attrvalue in wrapper_attr %}{% if attrname == 'title' %}{{ attrname }}="{{ attrvalue|trans({}, translation_domain) }}" {% else %}{{ attrname }}="{{ attrvalue }}" {% endif %}{% endfor %}></div>
+    {{ include_json_editor() }}
+    <script type="text/javascript">
+    (function () {
+        var textarea = document.getElementById('{{ id }}'),
+            editorElm = document.getElementById('{{ id }}_ace'),
+            editor = ace.edit(editorElm),
+            width = {{ width.value }},
+            widthUnit = '{{ width.unit }}',
+            height = {{ height.value }},
+            heightUnit = '{{ height.unit }}';
+
+        textarea.style.visibility = 'hidden';
+        textarea.style.width = 1;
+        textarea.style.height = 1;
+
+        // create the editor
+        var container = document.getElementById("{{ id }}_json");
+        
+        var options = {
+          mode: '{{ mode }}',
+          modes: ['code', 'form', 'text', 'tree', 'view'], // allowed modes
+          onError: function (err) {
+            alert(err.toString());
+          },
+          onModeChange: function (newMode, oldMode) {
+            console.log('Mode switched from', oldMode, 'to', newMode);
+          },
+          onChange: function(){
+            textarea.value = window.jsonEditors['{{ id }}'].getText();
+          }
+        };
+
+        editor = new JSONEditor(container, options);
+        {% if value is not empty %}
+        var json = {% autoescape false %} {{ value }} {% endautoescape %};
+        editor.set(json);
+        {% endif %}
+
+        if (typeof window.jsonEditors === 'undefined') {
+            window.jsonEditors = {};
+        }
+
+        window.jsonEditors['{{ id }}'] = editor;
+    }());
+    </script>
+    {% endspaceless %}
+{% endblock %}

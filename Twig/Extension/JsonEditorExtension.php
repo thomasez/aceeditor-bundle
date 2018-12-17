@@ -7,7 +7,7 @@ use Symfony\Bridge\Twig\Extension\AssetExtension;
 class JsonEditorExtension extends \Twig_Extension implements \Twig_Extension_InitRuntimeInterface
 {
     /**
-     * Should we include the ace.js?
+     * Should we include the editor
      * If false, user should include it it's own way.
      *
      * @var bool
@@ -20,11 +20,6 @@ class JsonEditorExtension extends \Twig_Extension implements \Twig_Extension_Ini
     private $basePath;
 
     /**
-     * @var string
-     */
-    private $mode;
-
-    /**
      * @var \Twig_Environment
      */
     private $environment;
@@ -32,13 +27,11 @@ class JsonEditorExtension extends \Twig_Extension implements \Twig_Extension_Ini
     /**
      * @param bool   $autoinclude means if the bundle should inclue the JS
      * @param string $basePath
-     * @param string $mode
      */
-    public function __construct($autoinclude, $basePath, $mode)
+    public function __construct($autoinclude, $basePath)
     {
         $this->editorIncluded = !$autoinclude;
         $this->basePath = rtrim($basePath, '/');
-        $this->mode = ltrim($mode, '/');
     }
 
     /**
@@ -46,7 +39,6 @@ class JsonEditorExtension extends \Twig_Extension implements \Twig_Extension_Ini
      */
     public function initRuntime(\Twig_Environment $environment)
     {
-error_log("initRuntimeJson");
         $this->environment = $environment;
     }
 
@@ -55,7 +47,7 @@ error_log("initRuntimeJson");
      */
     public function getName()
     {
-        return 'jsoneditor';
+        return 'json_editor';
     }
 
     /**
@@ -64,25 +56,18 @@ error_log("initRuntimeJson");
     public function getFunctions()
     {
         return [
-            'include_jsoneditor' => new \Twig_SimpleFunction('include_jsoneditor',
-                [$this, 'includeJsonEditor'],
-                ['is_safe' => ['html']]
-                ),
+            'include_json_editor' => new \Twig_SimpleFunction('include_json_editor', [$this, 'includeJsonEditor'], ['is_safe' => ['html']]),
         ];
-                // 'needs_environment' => true]
-                // ['is_safe' => ['html'], 'needs_environment' => true]),
     }
 
     /**
      * Echoes the <script> tag.
      *
-     * @throws \LogicException if asset extension is not available and Ace editor must be included
+     * @throws \LogicException if asset extension is not available and Json editor must be included
      */
     public function includeJsonEditor()
     {
-error_log("includeJsonEditor");
         if ($this->editorIncluded) {
-error_log("editorIncluded");
             return;
         }
 
@@ -90,24 +75,16 @@ error_log("editorIncluded");
             throw new \LogicException('"asset" extension is mandatory if you don\'t include Json editor by yourself.');
         }
 
-/* May need this instead 
-        $extension = "";
-        if ($this->environment->hasExtension('asset')) {
-            $extension = "asset";
-        } elseif ($this->environment->hasExtension('assets')) {
-            $extension = "assets";
-        } else {
-            return;
-        }
-*/
-
         if (!$this->editorIncluded) {
             foreach (['jsoneditor'] as $file) {
                 /** @var AssetExtension $extension */
                 $extension = $this->environment->getExtension(AssetExtension::class);
-                $jsPath = $extension->getAssetUrl($this->basePath.'/'.$this->mode.'/'.$file.'.js');
+                $jsPath = $extension->getAssetUrl($this->basePath.'/'.$file.'.js');
 
                 printf('<script src="%s" charset="utf-8" type="text/javascript"></script>', $jsPath);
+                $cssPath = $extension->getAssetUrl($this->basePath.'/'.$file.'.css');
+
+                printf('<link rel="stylesheet" href="%s" type="text/css" media="all" />', $cssPath);
             }
             $this->editorIncluded = true;
         }

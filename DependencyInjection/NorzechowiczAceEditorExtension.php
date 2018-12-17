@@ -35,18 +35,16 @@ class NorzechowiczAceEditorExtension extends Extension
     {
         // use debug from the kernel.debug, but we can force it via "debug"
         $debug = $container->getParameter('kernel.debug');
-        if (!$debug && $config['debug']) {
+        if (!$debug && $config['debug_ace']) {
             $debug = true;
         }
 
-        $mode = 'src'.($debug ? '' : '-min').($config['noconflict'] ? '-noconflict' : '');
+        $mode_ace = 'src'.($debug ? '' : '-min').($config['noconflict_ace'] ? '-noconflict' : '');
 
-        $container->setParameter('norzechowicz_ace_editor.options.autoinclude_ace_editor', $config['autoinclude_ace_editor']);
-        $container->setParameter('norzechowicz_ace_editor.options.base_path_ace_editor', $config['base_path_ace_editor']);
-        $container->setParameter('norzechowicz_ace_editor.options.mode_ace_editor', $mode);
-
-        $container->setParameter('norzechowicz_ace_editor.options.autoinclude_jsoneditor', $config['autoinclude_jsoneditor']);
-        $container->setParameter('norzechowicz_ace_editor.options.base_path_jsoneditor', $config['base_path_jsoneditor']);
-        $container->setParameter('norzechowicz_ace_editor.options.mode_jsoneditor', $mode);
+        $container->setParameter('norzechowicz_ace_editor.options.autoinclude_ace', $config['autoinclude_ace']);
+        $container->setParameter('norzechowicz_ace_editor.options.base_path_ace', $config['base_path_ace']);
+        $container->setParameter('norzechowicz_ace_editor.options.mode_ace', $mode_ace);
+        $container->setParameter('norzechowicz_ace_editor.options.autoinclude_json', $config['autoinclude_json']);
+        $container->setParameter('norzechowicz_ace_editor.options.base_path_json', $config['base_path_json']);
     }
 }

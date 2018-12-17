@@ -44,6 +44,7 @@ final class AceEditorType extends AbstractType
             } else {
                 $unit = $defaultUnit;
             }
+
             return ['value' => $value, 'unit' => $unit];
         };
 

@@ -1,21 +1,19 @@
 <?xml version="1.0" ?>
-
 <container xmlns="http://symfony.com/schema/dic/services"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
         <!-- Twig Extensions -->
-        <service id="norzechowicz_ace_editor.twig.form_extension_ace_editor" class="Norzechowicz\AceEditorBundle\Twig\Extension\AceEditorExtension">
+        <service id="norzechowicz_ace_editor.twig.ace_form_extension" class="Norzechowicz\AceEditorBundle\Twig\Extension\AceEditorExtension">
             <tag name="twig.extension" />
-            <argument>%norzechowicz_ace_editor.options.autoinclude_ace_editor%</argument>
-            <argument>%norzechowicz_ace_editor.options.base_path_ace_editor%</argument>
-            <argument>%norzechowicz_ace_editor.options.mode_ace_editor%</argument>
+            <argument>%norzechowicz_ace_editor.options.autoinclude_ace%</argument>
+            <argument>%norzechowicz_ace_editor.options.base_path_ace%</argument>
+            <argument>%norzechowicz_ace_editor.options.mode_ace%</argument>
         </service>
-        <service id="norzechowicz_ace_editor.twig.form_extension_jsoneditor" class="Norzechowicz\AceEditorBundle\Twig\Extension\JsonEditorExtension">
+        <service id="norzechowicz_ace_editor.twig.json_form_extension" class="Norzechowicz\AceEditorBundle\Twig\Extension\JsonEditorExtension">
             <tag name="twig.extension" />
-            <argument>%norzechowicz_ace_editor.options.autoinclude_jsoneditor%</argument>
-            <argument>%norzechowicz_ace_editor.options.base_path_jsoneditor%</argument>
-            <argument>%norzechowicz_ace_editor.options.mode_jsoneditor%</argument>
+            <argument>%norzechowicz_ace_editor.options.autoinclude_json%</argument>
+            <argument>%norzechowicz_ace_editor.options.base_path_json%</argument>
         </service>
     </services>
 </container>

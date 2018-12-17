@@ -46,7 +46,6 @@ class AceEditorExtension extends \Twig_Extension implements \Twig_Extension_Init
      */
     public function initRuntime(\Twig_Environment $environment)
     {
-error_log("initRuntimeAcr");
         $this->environment = $environment;
     }
 
@@ -64,10 +63,7 @@ error_log("initRuntimeAcr");
     public function getFunctions()
     {
         return [
-            'include_ace_editor' => new \Twig_SimpleFunction('include_ace_editor',
-                [$this, 'includeAceEditor'],
-                ['is_safe' => ['html']]
-                ),
+            'include_ace_editor' => new \Twig_SimpleFunction('include_ace_editor', [$this, 'includeAceEditor'], ['is_safe' => ['html']]),
         ];
     }
 
@@ -78,9 +74,7 @@ error_log("initRuntimeAcr");
      */
     public function includeAceEditor()
     {
-error_log("includeAceEditor");
         if ($this->editorIncluded) {
-error_log("includeDAceEditor");
             return;
         }
 

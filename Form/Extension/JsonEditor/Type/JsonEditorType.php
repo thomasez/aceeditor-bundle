@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Norzechowicz\AceEditorBundle\Form\Extension\AceEditor\Type\AceEditorType;
 
 final class JsonEditorType extends AbstractType
 {
@@ -19,17 +20,17 @@ final class JsonEditorType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        // Remove id from ace editor wrapper attributes. Id must be generated.
-        $wrapperAttrNormalizer = function (Options $options, $aceAttr) {
-            if (is_array($aceAttr)) {
-                if (array_key_exists('id', $aceAttr)) {
-                    unset($aceAttr['id']);
+        // Remove id from editor wrapper attributes. Id must be generated.
+        $wrapperAttrNormalizer = function (Options $options, $jsonAttr) {
+            if (is_array($jsonAttr)) {
+                if (array_key_exists('id', $jsonAttr)) {
+                    unset($jsonAttr['id']);
                 }
             } else {
-                $aceAttr = [];
+                $jsonAttr = [];
             }
 
-            return $aceAttr;
+            return $jsonAttr;
         };
 
         $defaultUnit = static::$DEFAULT_UNIT;
@@ -44,21 +45,23 @@ final class JsonEditorType extends AbstractType
             } else {
                 $unit = $defaultUnit;
             }
+
             return ['value' => $value, 'unit' => $unit];
         };
 
         $resolver->setDefaults([
             'required' => false,
             'wrapper_attr' => [],
-            'width' => 200,
-            'height' => 200,
-            'font_size' => 12
+            'width' => '100%',
+            'height' => 250,
+            'font_size' => 12,
+            'mode' => 'tree',
         ]);
 
         $optionAllowedTypes = [
             'width' => ['integer', 'string', 'array'],
             'height' => ['integer', 'string', 'array'],
-            'font_size' => 'integer',
+            'mode' => 'string',
         ];
         foreach ($optionAllowedTypes as $option => $allowedTypes) {
             $resolver->setAllowedTypes($option, $allowedTypes);
@@ -88,6 +91,7 @@ final class JsonEditorType extends AbstractType
                 'width' => $options['width'],
                 'height' => $options['height'],
                 'font_size' => $options['font_size'],
+                'mode' => $options['mode'],
             ]
         );
     }
@@ -97,6 +101,6 @@ final class JsonEditorType extends AbstractType
      */
     public function getParent()
     {
-        return TextAreaType::class;
+        return AceEditorType::class;
     }
 }
