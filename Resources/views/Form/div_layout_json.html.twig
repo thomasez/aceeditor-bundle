@@ -1,5 +1,4 @@
 {% block json_editor_widget %}
-    {% spaceless %}
     <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
     <div id="{{ id }}_json" {% for attrname, attrvalue in wrapper_attr %}{% if attrname == 'title' %}{{ attrname }}="{{ attrvalue|trans({}, translation_domain) }}" {% else %}{{ attrname }}="{{ attrvalue }}" {% endif %}{% endfor %}></div>
     {{ include_json_editor() }}
@@ -47,5 +46,4 @@
         window.jsonEditors['{{ id }}'] = editor;
     }());
     </script>
-    {% endspaceless %}
 {% endblock %}
