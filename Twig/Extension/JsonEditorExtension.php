@@ -4,7 +4,7 @@ namespace Norzechowicz\AceEditorBundle\Twig\Extension;
 
 use Symfony\Bridge\Twig\Extension\AssetExtension;
 
-class JsonEditorExtension extends \Twig_Extension implements \Twig_Extension_InitRuntimeInterface
+class JsonEditorExtension extends \Twig_Extension
 {
     /**
      * Should we include the editor
@@ -20,11 +20,6 @@ class JsonEditorExtension extends \Twig_Extension implements \Twig_Extension_Ini
     private $basePath;
 
     /**
-     * @var \Twig_Environment
-     */
-    private $environment;
-
-    /**
      * @param bool   $autoinclude means if the bundle should inclue the JS
      * @param string $basePath
      */
@@ -32,14 +27,6 @@ class JsonEditorExtension extends \Twig_Extension implements \Twig_Extension_Ini
     {
         $this->editorIncluded = !$autoinclude;
         $this->basePath = rtrim($basePath, '/');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function initRuntime(\Twig_Environment $environment)
-    {
-        $this->environment = $environment;
     }
 
     /**
@@ -56,7 +43,11 @@ class JsonEditorExtension extends \Twig_Extension implements \Twig_Extension_Ini
     public function getFunctions()
     {
         return [
-            'include_json_editor' => new \Twig_SimpleFunction('include_json_editor', [$this, 'includeJsonEditor'], ['is_safe' => ['html']]),
+            'include_json_editor' => new \Twig_SimpleFunction(
+                'include_json_editor',
+                [$this, 'includeJsonEditor'],
+                ['needs_environment' => true, 'is_safe' => ['html']
+                ]),
         ];
     }
 
@@ -65,20 +56,20 @@ class JsonEditorExtension extends \Twig_Extension implements \Twig_Extension_Ini
      *
      * @throws \LogicException if asset extension is not available and Json editor must be included
      */
-    public function includeJsonEditor()
+    public function includeJsonEditor(\Twig_Environment $environment)
     {
         if ($this->editorIncluded) {
             return;
         }
 
-        if (!$this->environment->hasExtension(AssetExtension::class)) {
+        if (!$environment->hasExtension(AssetExtension::class)) {
             throw new \LogicException('"asset" extension is mandatory if you don\'t include Json editor by yourself.');
         }
 
         if (!$this->editorIncluded) {
             foreach (['jsoneditor'] as $file) {
                 /** @var AssetExtension $extension */
-                $extension = $this->environment->getExtension(AssetExtension::class);
+                $extension = $environment->getExtension(AssetExtension::class);
                 $jsPath = $extension->getAssetUrl($this->basePath.'/'.$file.'.js');
 
                 printf('<script src="%s" charset="utf-8" type="text/javascript"></script>', $jsPath);
