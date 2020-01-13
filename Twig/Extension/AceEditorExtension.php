@@ -3,8 +3,12 @@
 namespace Norzechowicz\AceEditorBundle\Twig\Extension;
 
 use Symfony\Bridge\Twig\Extension\AssetExtension;
+use Twig\Extension\AbstractExtension;
+use Twig\Extension\InitRuntimeInterface;
+use Twig\Environment;
+use Twig\TwigFunction;
 
-class AceEditorExtension extends \Twig_Extension
+class AceEditorExtension extends AbstractExtension
 {
     /**
      * Should we include the ace.js?
@@ -50,11 +54,7 @@ class AceEditorExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            'include_ace_editor' => new \Twig_SimpleFunction(
-                'include_ace_editor',
-                [$this, 'includeAceEditor'],
-                ['needs_environment' => true, 'is_safe' => ['html']
-                ]),
+            'include_ace_editor' => new TwigFunction('include_ace_editor', [$this, 'includeAceEditor'], ['is_safe' => ['html'], 'needs_environment' => true]),
         ];
     }
 
@@ -63,7 +63,7 @@ class AceEditorExtension extends \Twig_Extension
      *
      * @throws \LogicException if asset extension is not available and Ace editor must be included
      */
-    public function includeAceEditor(\Twig_Environment $environment)
+    public function includeAceEditor(Environment $environment)
     {
         if ($this->editorIncluded) {
             return;

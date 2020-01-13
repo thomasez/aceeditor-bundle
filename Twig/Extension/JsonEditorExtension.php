@@ -3,8 +3,12 @@
 namespace Norzechowicz\AceEditorBundle\Twig\Extension;
 
 use Symfony\Bridge\Twig\Extension\AssetExtension;
+use Twig\Extension\AbstractExtension;
+use Twig\Extension\InitRuntimeInterface;
+use Twig\Environment;
+use Twig\TwigFunction;
 
-class JsonEditorExtension extends \Twig_Extension
+class JsonEditorExtension extends AbstractExtension
 {
     /**
      * Should we include the editor
@@ -43,11 +47,7 @@ class JsonEditorExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            'include_json_editor' => new \Twig_SimpleFunction(
-                'include_json_editor',
-                [$this, 'includeJsonEditor'],
-                ['needs_environment' => true, 'is_safe' => ['html']
-                ]),
+            'include_json_editor' => new TwigFunction('include_json_editor', [$this, 'includeJsonEditor'], ['is_safe' => ['html'], 'needs_environment' => true]),
         ];
     }
 
@@ -56,7 +56,7 @@ class JsonEditorExtension extends \Twig_Extension
      *
      * @throws \LogicException if asset extension is not available and Json editor must be included
      */
-    public function includeJsonEditor(\Twig_Environment $environment)
+    public function includeJsonEditor(Environment $environment)
     {
         if ($this->editorIncluded) {
             return;

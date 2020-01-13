@@ -1,6 +1,6 @@
 # Ace Editor Bundle
 
-[![Build Status](https://travis-ci.org/norzechowicz/aceeditor-bundle.svg?branch=master)](https://travis-ci.org/norzechowicz/aceeditor-bundle)
+[![Build Status](https://travis-ci.org/norberttech/aceeditor-bundle.svg?branch=master)](https://travis-ci.org/norzechowicz/aceeditor-bundle)
 
 Bundle provides a [Ace editor](http://ace.ajax.org) integration into Symfony Form component.
 It automatically register `ace_editor` form type.
@@ -9,16 +9,17 @@ It automatically register `ace_editor` form type.
 
 This bundle is supporting following Symfony versions:
 
-* [Symfony ^2.8](https://github.com/norzechowicz/aceeditor-bundle/tree/2.8)
-* [Symfony ^3.0](https://github.com/norzechowicz/aceeditor-bundle/tree/3.0)
+* [Symfony ^2.8](https://github.com/norberttech/aceeditor-bundle/tree/2.8)
+* [Symfony ^3.0](https://github.com/norberttech/aceeditor-bundle/tree/3.0)
+* [Symfony ^4.0](https://github.com/norberttech/aceeditor-bundle/tree/4.0)
 
 
 ## Composer
 
-To use this bundle with `Symfony ^3.0`, require it in [Composer](https://getcomposer.org/):
+To use this bundle with `Symfony ^4.0`, require it in [Composer](https://getcomposer.org/):
 
 ```sh
-composer require "norzechowicz/aceeditor-bundle" ^3.0
+composer require "norberttech/aceeditor-bundle" ^4.0
 ```
 
 Register bundle in AppKernel.php
@@ -41,7 +42,7 @@ Unles you do some configuration, this bundle expect Ace editor files to be in `w
 
 ```sh
 cd your_project_root/web
-mdkir vendor && cd vendor
+mkdir vendor && cd vendor
 wget https://github.com/ajaxorg/ace-builds/archive/v1.2.6.tar.gz
 tar -xvf v1.2.6.tar.gz
 mv ace-builds-1.2.6 ace
