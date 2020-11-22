@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Norzechowicz\AceEditorBundle\Form\Extension\JsonEditor\Type;
 
 use Symfony\Component\Form\AbstractType;
@@ -13,6 +15,7 @@ use Norzechowicz\AceEditorBundle\Form\Extension\AceEditor\Type\AceEditorType;
 final class JsonEditorType extends AbstractType
 {
     public static $DEFAULT_UNIT = 'px';
+
     public static $UNITS = ['%', 'in', 'cm', 'mm', 'em', 'ex', 'pt', 'pc', 'px'];
 
     /**
