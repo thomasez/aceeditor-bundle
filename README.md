@@ -1,6 +1,6 @@
 # Ace Editor Bundle
 
-[![Build Status](https://travis-ci.org/norberttech/aceeditor-bundle.svg?branch=master)](https://travis-ci.org/norzechowicz/aceeditor-bundle)
+![Tests](https://github.com/norberttech/aceeditor-bundle/workflows/Tests/badge.svg)
 
 Bundle provides a [Ace editor](http://ace.ajax.org) integration into Symfony Form component.
 It automatically register `ace_editor` form type.
@@ -9,9 +9,10 @@ It automatically register `ace_editor` form type.
 
 This bundle is supporting following Symfony versions:
 
-* [Symfony ^2.8](https://github.com/norberttech/aceeditor-bundle/tree/2.8)
-* [Symfony ^3.0](https://github.com/norberttech/aceeditor-bundle/tree/3.0)
-* [Symfony ^4.0](https://github.com/norberttech/aceeditor-bundle/tree/4.0)
+* [Symfony ^2.8, PHP >= 5.6](https://github.com/norberttech/aceeditor-bundle/tree/2.8)
+* [Symfony ^3.0, PHP >= 5.6](https://github.com/norberttech/aceeditor-bundle/tree/3.0)
+* [Symfony ^4.0, PHP >= 5.6](https://github.com/norberttech/aceeditor-bundle/tree/4.0)
+* [Symfony ^5.0, PHP >= 7.3](https://github.com/norberttech/aceeditor-bundle/tree/5.x)
 
 
 ## Composer
@@ -52,7 +53,7 @@ rm v1.2.6.tar.gz
 ## Usage
 
 ```php
-use Norzechowicz\AceEditorBundle\Form\Type\AceEditorType;
+use Norzechowicz\AceEditorBundle\Form\Extension\AceEditor\Type\AceEditorType;
 
 /* @var $builder \Symfony\Component\Form\FormBuilderInterface */
 $builder->add('description', AceEditorType::class, array(
