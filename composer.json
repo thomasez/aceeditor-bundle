@@ -9,7 +9,7 @@
         "twig/twig": "^2.0|^3.0",
         "symfony/framework-bundle": "^5.0|^6.0",
         "symfony/form": "^5.0|^6.0",
-        "symfony/twig-bridge": "5.0|^6.0",
+        "symfony/twig-bridge": "^5.0|^6.0",
         "symfony/asset": "^5.0|^6.0",
         "symfony/expression-language": "^5.0|^6.0"
     },
