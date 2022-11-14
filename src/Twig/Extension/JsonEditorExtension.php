@@ -44,7 +44,7 @@ class JsonEditorExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             'include_json_editor' => new TwigFunction('include_json_editor', [$this, 'includeJsonEditor'], ['is_safe' => ['html'], 'needs_environment' => true]),
