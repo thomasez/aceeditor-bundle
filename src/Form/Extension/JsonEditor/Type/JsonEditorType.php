@@ -21,7 +21,7 @@ final class JsonEditorType extends AbstractType
     /**
      * @param OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         // Remove id from editor wrapper attributes. Id must be generated.
         $wrapperAttrNormalizer = function (Options $options, $jsonAttr) {
@@ -85,7 +85,7 @@ final class JsonEditorType extends AbstractType
      * @param FormInterface $form
      * @param array $options
      */
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars = array_merge(
             $view->vars,
