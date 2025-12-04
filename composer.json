@@ -10,7 +10,7 @@
         "symfony/framework-bundle": "^7.0|^8.0",
         "symfony/form": "^7.0|^8.0",
         "symfony/twig-bridge": "^7.0|^8.0",
-        "symfony/asset": "^7.0|^7.0",
+        "symfony/asset": "^7.0|^8.0",
         "symfony/expression-language": "^7.0|^8.0"
     },
     "config": {
