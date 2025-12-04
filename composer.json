@@ -7,11 +7,11 @@
     "require": {
         "php": "^8.2",
         "twig/twig": "^3.0",
-        "symfony/framework-bundle": "^6.0|^7.0",
-        "symfony/form": "^6.0|^7.0",
-        "symfony/twig-bridge": "^6.0|^7.0",
-        "symfony/asset": "^6.0|^7.0",
-        "symfony/expression-language": "^6.0|^7.0"
+        "symfony/framework-bundle": "^7.0|^8.0",
+        "symfony/form": "^7.0|^8.0",
+        "symfony/twig-bridge": "^7.0|^8.0",
+        "symfony/asset": "^7.0|^7.0",
+        "symfony/expression-language": "^7.0|^8.0"
     },
     "config": {
         "optimize-autoloader": true,
@@ -27,7 +27,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "6.0-dev"
+            "dev-master": "8.0-dev"
         }
     },
     "scripts" : {
