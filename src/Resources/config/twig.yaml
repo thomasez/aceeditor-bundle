@@ -1,0 +1,22 @@
+services:
+    Norzechowicz\AceEditorBundle\Twig\Extension\AceEditorExtension:
+        autowire: true
+        autoconfigure: true
+        arguments: ['%norzechowicz_ace_editor.options.autoinclude_ace%', '%norzechowicz_ace_editor.options.base_path_ace%', '%norzechowicz_ace_editor.options.mode_ace%']
+        tags:
+            - { name: 'twig.extension' }
+
+    norzechowicz_ace_editor.twig.ace_form_extension:
+        alias: Norzechowicz\AceEditorBundle\Twig\Extension\AceEditorExtension
+        public: true
+
+    Norzechowicz\AceEditorBundle\Twig\Extension\JsonEditorExtension:
+        autowire: true
+        autoconfigure: true
+        arguments: ['%norzechowicz_ace_editor.options.autoinclude_json%', '%norzechowicz_ace_editor.options.base_path_json%']
+        tags:
+            - { name: 'twig.extension' }
+
+    norzechowicz_ace_editor.twig.json_form_extension:
+        alias: Norzechowicz\AceEditorBundle\Twig\Extension\JsonEditorExtension
+        public: true
