@@ -29,7 +29,7 @@ class TwigFormPassTest extends TestCase
         $container = new ContainerBuilder();
         $container->setParameter('twig.form.resources', ['foo']);
 
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../../../src/Resources/config'));
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../../../config'));
         $loader->load('form.xml');
 
         $compiler = new TwigFormPass();

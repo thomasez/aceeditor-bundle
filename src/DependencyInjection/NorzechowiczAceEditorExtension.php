@@ -22,7 +22,7 @@ class NorzechowiczAceEditorExtension extends Extension
 
         $this->registerAceEditorParameters($config, $container);
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
         $loader->load('form.yaml');
         $loader->load('twig.yaml');
     }

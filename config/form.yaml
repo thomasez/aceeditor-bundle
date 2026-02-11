@@ -8,6 +8,7 @@ services:
         autoconfigure: true
         tags: 
             - { name: form.type, alias: ace_editor }
+
     Norzechowicz\AceEditorBundle\Form\Extension\JsonEditor\Type\JsonEditorType:
         autowire: true
         autoconfigure: true
