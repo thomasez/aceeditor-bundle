@@ -1,6 +1,6 @@
 parameters:
-    norzechowicz_ace_editor.ace_form.resource: '@NorzechowiczAceEditor/Form/div_layout_ace.html.twig'
-    norzechowicz_ace_editor.json_form.resource: '@NorzechowiczAceEditor/Form/div_layout_json.html.twig'
+    norzechowicz_ace_editor.json_form.resource: '@NorzechowiczAceEditor/form/div_layout_json.html.twig'
+    norzechowicz_ace_editor.ace_form.resource: '@NorzechowiczAceEditor/form/div_layout_ace.html.twig'
 
 services:
     Norzechowicz\AceEditorBundle\Form\Extension\AceEditor\Type\AceEditorType:

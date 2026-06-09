@@ -2,7 +2,10 @@ services:
     Norzechowicz\AceEditorBundle\Twig\Extension\AceEditorExtension:
         autowire: true
         autoconfigure: true
-        arguments: ['%norzechowicz_ace_editor.options.autoinclude_ace%', '%norzechowicz_ace_editor.options.base_path_ace%', '%norzechowicz_ace_editor.options.mode_ace%']
+        arguments:
+            - '%norzechowicz_ace_editor.options.autoinclude_ace%'
+            - '%norzechowicz_ace_editor.options.base_path_ace%'
+            - '%norzechowicz_ace_editor.options.mode_ace%'
         tags:
             - { name: 'twig.extension' }
 
@@ -13,7 +16,9 @@ services:
     Norzechowicz\AceEditorBundle\Twig\Extension\JsonEditorExtension:
         autowire: true
         autoconfigure: true
-        arguments: ['%norzechowicz_ace_editor.options.autoinclude_json%', '%norzechowicz_ace_editor.options.base_path_json%']
+        arguments:
+            - '%norzechowicz_ace_editor.options.autoinclude_json%'
+            - '%norzechowicz_ace_editor.options.base_path_json%'
         tags:
             - { name: 'twig.extension' }
 
