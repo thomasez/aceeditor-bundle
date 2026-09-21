@@ -2,18 +2,28 @@
 
 declare(strict_types=1);
 
-namespace Norzechowicz\AceEditorBundle;
+namespace AceEditorBundle;
 
-use Norzechowicz\AceEditorBundle\DependencyInjection\Compiler\TwigFormPass;
+use AceEditorBundle\DependencyInjection\Compiler\TwigFormPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class NorzechowiczAceEditorBundle extends Bundle
+class AceEditorBundle extends Bundle
 {
     public function build(ContainerBuilder $container): void
     {
         parent::build($container);
 
         $container->addCompilerPass(new TwigFormPass());
+    }
+
+    public function getPath(): string
+    {
+        return \dirname(__DIR__);
+    }
+
+    public function __toString(): string
+    {
+        return 'AceEditorBundle';
     }
 }

@@ -1,16 +1,26 @@
 parameters:
-    norzechowicz_ace_editor.json_form.resource: '@NorzechowiczAceEditor/form/div_layout_json.html.twig'
-    norzechowicz_ace_editor.ace_form.resource: '@NorzechowiczAceEditor/form/div_layout_ace.html.twig'
+    ace_editor.json_form.resource: '@AceEditor/Form/div_layout_json.html.twig'
+    ace_editor.ace_form.resource: '@AceEditor/Form/div_layout_ace.html.twig'
+    ace_editor.form.resource: '@AceEditor/Form/div_layout.html.twig'
 
 services:
-    Norzechowicz\AceEditorBundle\Form\Extension\AceEditor\Type\AceEditorType:
+    AceEditorBundle\Form\Extension\AceEditor\Type\AceEditorType:
         autowire: true
         autoconfigure: true
-        tags: 
+        arguments: ['%ace_editor.options.use_stimulus%']
+        tags:
             - { name: form.type, alias: ace_editor }
 
-    Norzechowicz\AceEditorBundle\Form\Extension\JsonEditor\Type\JsonEditorType:
+    ace_editor.form.type.ace_editor:
+        alias: AceEditorBundle\Form\Extension\AceEditor\Type\AceEditorType
+        public: true
+
+    AceEditorBundle\Form\Extension\JsonEditor\Type\JsonEditorType:
         autowire: true
         autoconfigure: true
-        tags: 
+        tags:
             - { name: form.type, alias: json_editor }
+
+    ace_editor.twig.json_form_extension:
+        alias: AceEditorBundle\Twig\Extension\JsonEditorExtension
+        public: true

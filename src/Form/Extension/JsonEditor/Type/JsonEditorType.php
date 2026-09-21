@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Norzechowicz\AceEditorBundle\Form\Extension\JsonEditor\Type;
+namespace AceEditorBundle\Form\Extension\JsonEditor\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Norzechowicz\AceEditorBundle\Form\Extension\AceEditor\Type\AceEditorType;
+use AceEditorBundle\Form\Extension\AceEditor\Type\AceEditorType;
 
 final class JsonEditorType extends AbstractType
 {

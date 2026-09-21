@@ -2,50 +2,66 @@
 
 declare(strict_types=1);
 
-namespace Norzechowicz\AceEditorBundle\Form\Extension\AceEditor\Type;
+namespace AceEditorBundle\Form\Extension\AceEditor\Type;
 
+use AceEditorBundle\AutocompleteBuilderInterface;
+use AceEditorBundle\AutocompleteItem;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Exception\InvalidArgumentException;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * @template T of mixed
+ *
+ * @template-extends AbstractType<T>
+ */
 final class AceEditorType extends AbstractType
 {
-    public static $DEFAULT_UNIT = 'px';
+    private const DEFAULT_MODE = 'ace/mode/html';
 
-    public static $UNITS = ['%', 'in', 'cm', 'mm', 'em', 'ex', 'pt', 'pc', 'px'];
+    private const DEFAULT_THEME = 'ace/theme/monokai';
 
-    /**
-     * @param OptionsResolver $resolver
-     */
+    private const DEFAULT_UNIT = 'px';
+
+    private const UNITS = ['%', 'in', 'cm', 'mm', 'em', 'ex', 'pt', 'pc', 'px'];
+
+    private bool $useStimulus;
+
+    public function __construct(bool $useStimulus)
+    {
+        $this->useStimulus = $useStimulus;
+    }
+
     public function configureOptions(OptionsResolver $resolver): void
     {
-        // Remove id from ace editor wrapper attributes. Id must be generated.
-        $wrapperAttrNormalizer = function (Options $options, $aceAttr) {
-            if (is_array($aceAttr)) {
-                if (array_key_exists('id', $aceAttr)) {
-                    unset($aceAttr['id']);
-                }
-            } else {
+        // Remove id from ace editor wrapper attributes, it must be generated.
+        $wrapperAttrNormalizer = static function (Options $options, mixed $aceAttr): array {
+            if (!\is_array($aceAttr)) {
                 $aceAttr = [];
+            } else {
+                unset($aceAttr['id']);
             }
 
             return $aceAttr;
         };
 
-        $defaultUnit = static::$DEFAULT_UNIT;
-        $allowedUnits = static::$UNITS;
-        $unitNormalizer = function (Options $options, $value) use ($defaultUnit, $allowedUnits) {
-            if (is_array($value)) {
+        $unitNormalizer = static function (Options $options, null|array|float|int|string $value): array {
+            if (\is_array($value)) {
+                if (!\array_key_exists('value', $value) || !\array_key_exists('unit', $value)) {
+                    throw new InvalidArgumentException('Expected an array with the keys "value" and "unit"');
+                }
+
                 return $value;
             }
-            if (preg_match('/([0-9\.]+)\s*('.implode('|', $allowedUnits).')/', $value, $matchedValue)) {
+            if (preg_match('/([0-9\.]+)\s*(' . implode('|', self::UNITS) . ')/', (string) $value, $matchedValue)) {
                 $value = $matchedValue[1];
                 $unit = $matchedValue[2];
             } else {
-                $unit = $defaultUnit;
+                $unit = self::DEFAULT_UNIT;
             }
 
             return ['value' => $value, 'unit' => $unit];
@@ -57,8 +73,8 @@ final class AceEditorType extends AbstractType
             'width' => '100%',
             'height' => 250,
             'font_size' => 12,
-            'mode' => 'ace/mode/html',
-            'theme' => 'ace/theme/monokai',
+            'mode' => self::DEFAULT_MODE,
+            'theme' => self::DEFAULT_THEME,
             'tab_size' => null,
             'read_only' => null,
             'use_soft_tabs' => null,
@@ -70,11 +86,13 @@ final class AceEditorType extends AbstractType
             'options_enable_live_autocompletion' => true,
             'options_enable_snippets' => false,
             'keyboard_handler' => null,
+            'autocomplete_words' => [],
+            'autocomplete_builder' => null,
         ]);
 
         $optionAllowedTypes = [
-            'width' => ['integer', 'string', 'array'],
-            'height' => ['integer', 'string', 'array'],
+            'width' => ['null', 'integer', 'string', 'array'],
+            'height' => ['null', 'integer', 'string', 'array'],
             'mode' => 'string',
             'font_size' => 'integer',
             'tab_size' => ['integer', 'null'],
@@ -88,6 +106,8 @@ final class AceEditorType extends AbstractType
             'options_enable_live_autocompletion' => ['bool', 'null'],
             'options_enable_snippets' => ['bool', 'null'],
             'keyboard_handler' => ['null', 'string'],
+            'autocomplete_words' => ['array'],
+            'autocomplete_builder' => [AutocompleteBuilderInterface::class, 'null'],
         ];
         foreach ($optionAllowedTypes as $option => $allowedTypes) {
             $resolver->setAllowedTypes($option, $allowedTypes);
@@ -103,13 +123,17 @@ final class AceEditorType extends AbstractType
         }
     }
 
-    /**
-     * @param FormView $view
-     * @param FormInterface $form
-     * @param array $options
-     */
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
+        /** @var null|AutocompleteBuilderInterface $autocompleteBuilder */
+        $autocompleteBuilder = $options['autocomplete_builder'];
+        $words = [];
+        if (null !== $autocompleteBuilder) {
+            $words = $autocompleteBuilder->buildWords();
+            if ($words instanceof \Traversable) {
+                $words = iterator_to_array($words);
+            }
+        }
         $view->vars = array_merge(
             $view->vars,
             [
@@ -130,15 +154,17 @@ final class AceEditorType extends AbstractType
                 'options_enable_live_autocompletion' => $options['options_enable_live_autocompletion'],
                 'options_enable_snippets' => $options['options_enable_snippets'],
                 'keyboard_handler' => $options['keyboard_handler'],
+                'use_stimulus' => $this->useStimulus,
+                'autocomplete_words' => array_merge(
+                    $options['autocomplete_words'],
+                    array_map(static fn (AutocompleteItem $item) => $item->jsonSerialize(), $words),
+                ),
             ]
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent(): ?string
+    public function getParent(): string
     {
-        return TextAreaType::class;
+        return TextareaType::class;
     }
 }

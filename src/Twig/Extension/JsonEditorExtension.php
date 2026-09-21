@@ -1,6 +1,6 @@
 <?php
 
-namespace Norzechowicz\AceEditorBundle\Twig\Extension;
+namespace AceEditorBundle\Twig\Extension;
 
 use Symfony\Bridge\Twig\Extension\AssetExtension;
 use Twig\Extension\AbstractExtension;

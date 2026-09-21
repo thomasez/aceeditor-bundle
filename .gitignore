@@ -1,3 +1,5 @@
 /build
 /vendor
 /var
+/tools/**/vendor/
+/.idea

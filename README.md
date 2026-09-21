@@ -2,62 +2,51 @@
 
 ![Tests](https://github.com/norberttech/aceeditor-bundle/workflows/Tests/badge.svg)
 
-Bundle provides a [Ace editor](http://ace.ajax.org) integration into Symfony Form component.
-It automatically register `ace_editor` form type.
+This bundle provides an [Ace editor](https://ace.c9.io/) integration for the Symfony Form component by
+automatically registering the `ace_editor` form type.
 
-# Symfony
+## Compatibility
 
-This bundle is supporting following Symfony versions:
+Check the table below to check if your PHP and symfony versions are supported.
 
-* [Symfony ^2.8, PHP >= 5.6](https://github.com/norberttech/aceeditor-bundle/tree/2.8)
-* [Symfony ^3.0, PHP >= 5.6](https://github.com/norberttech/aceeditor-bundle/tree/3.0)
-* [Symfony ^4.0, PHP >= 5.6](https://github.com/norberttech/aceeditor-bundle/tree/4.0)
-* [Symfony ^5.0, PHP >= 7.3](https://github.com/norberttech/aceeditor-bundle/tree/5.x)
+| PHP version(s)  | Symfony version(s)   | AceEditorBundle version  |
+| --------------- |----------------------| ------------------------------------------------------------------ |
+| >= 8.2          | ^5.4 \| ^6.4 \| ^7.0 | [^5.0](https://github.com/norberttech/aceeditor-bundle/tree/5.x)   |
+
+For older unsupported versions check the [releases](https://github.com/norberttech/aceeditor-bundle/releases) page.
 
 
-## Composer
+## Installation
 
-To use this bundle with `Symfony ^4.0`, require it in [Composer](https://getcomposer.org/):
+To use this bundle with the latest Symfony version install it using [Composer](https://getcomposer.org/):
 
 ```sh
-composer require "norberttech/aceeditor-bundle" ^4.0
+composer require norberttech/aceeditor-bundle ^5.0
 ```
 
-Register bundle in AppKernel.php
+If you're using [symfony/flex](https://symfony.com/doc/current/setup/flex.html) then the
+bundle will be automatically registered for you, otherwise you need to register the
+bundle yourself:
 
 ```php
-// app/AppKernel.php
+// app/config/bundles.php
 
-public function registerBundles()
-{
-    return array(
-        new Norzechowicz\AceEditorBundle\NorzechowiczAceEditorBundle(),
-        // ...
-    );
-}
+return [
+    // ...
+    AceEditorBundle\AceEditorBundle::class => ['all' => true],
+    // ...
+];
 ```
 
-### Ace editor
-
-Unles you do some configuration, this bundle expect Ace editor files to be in `web/vendor/ace`:
-
-```sh
-cd your_project_root/web
-mkdir vendor && cd vendor
-wget https://github.com/ajaxorg/ace-builds/archive/v1.2.6.tar.gz
-tar -xvf v1.2.6.tar.gz
-mv ace-builds-1.2.6 ace
-rm v1.2.6.tar.gz
-```
 
 ## Usage
 
 ```php
-use Norzechowicz\AceEditorBundle\Form\Extension\AceEditor\Type\AceEditorType;
+use AceEditorBundle\Form\Extension\AceEditor\Type\AceEditorType;
 
-/* @var $builder \Symfony\Component\Form\FormBuilderInterface */
-$builder->add('description', AceEditorType::class, array(
-    'wrapper_attr' => array(), // aceeditor wrapper html attributes.
+/** @var $builder \Symfony\Component\Form\FormBuilderInterface */
+$builder->add('description', AceEditorType::class, [
+    'wrapper_attr' => [], // aceeditor wrapper html attributes.
     'width' => '100%',
     'height' => 250,
     'font_size' => 12,
@@ -73,24 +62,26 @@ $builder->add('description', AceEditorType::class, array(
     'options_enable_basic_autocompletion' => true,
     'options_enable_live_autocompletion' => true,
     'options_enable_snippets' => false
-    'keyboard_handler' => null
-));
+    'keyboard_handler' => null,
+    'autocomplete_words' => ['foo', 'bar', 'baz']
+]);
 ```
 
-Above code will create textarea element that will be replaced with ace editor instance.
-Textarea value is updated on every single change in ace editor.
+The above code will create a textarea element that will be replaced with an ace editor instance.
+The textarea value is updated on every change done in ace editor.
+
 
 ## Configuration
 
-> This section is optional, you dont need to configure anything and the form type will still work perfectly fine
+> This section is optional, you dont need to configure anything and the form type will still work perfectly fine.
 
 Default configuration:
 
 ```
 # app/config/config.yml
 
-norzechowicz_ace_editor:
-    base_path: "vendor/ace" # notice! this is starting from "your_project_root/web"!
+ace_editor:
+    base_path: "vendor/ace" # notice! this is starting from your project's public web root, typically: `%kernel.project_dir%/public`!
     autoinclude: true
     debug: false # sources not minified, based on kernel.debug but it can force it
     noconflict: true # uses ace.require instead of require
@@ -99,6 +90,59 @@ norzechowicz_ace_editor:
 You can also include Ace editor directly from a location that follow the same directory layout than
 `https://github.com/ajaxorg/ace-builds`, all you need to do is setting `base_path` option:
 ```
-norzechowicz_ace_editor:
+ace_editor:
     base_path: "http://rawgithub.com/ajaxorg/ace-builds/master"
+```
+
+
+## Ace editor assets
+
+Unless you do some configuration, this bundle expects Ace editor files to be in `public/vendor/ace`.
+You can download any ace editor build version from the [upstream repository](https://github.com/ajaxorg/ace/releases) and drop its contents in
+the corresponding folder.
+
+```sh
+ACE_VERSION=1.32.3 # replace with whatever ace version you need
+
+cd <YOUR_PROJECT_ROOT>/public
+mkdir vendor && cd vendor
+wget https://github.com/ajaxorg/ace-builds/archive/v${ACE_VERSION}.tar.gz
+tar -xvf v${ACE_VERSION}.tar.gz
+mv ace-${ACE_VERSION} ace
+rm v${ACE_VERSION}.tar.gz
+```
+
+## Use with Stimulus and Asset Mapper
+
+Stimulus version is supported only with Asset mapper dependency
+
+- ```composer require symfony/stimulus-bundle```
+- ```composer require symfony/asset-mapper ```
+- ```bin/console importmap:require ace-builds/css/ace.css```
+- ```bin/console importmap:require ace-builds/src-noconflict/ace.js```
+- ```bin/console importmap:require ace-builds/src-noconflict/ext-language_tools.js```
+
+fell free to add more dependencies for your theme and mode
+
+- ```bin/console importmap:require ace-builds/src-noconflict/theme-monokai.js```
+- ```bin/console importmap:require ace-builds/src-noconflict/worker-javascript.js```
+- ```bin/console importmap:require ace-builds/src-noconflict/mode-javascript.js```
+
+## Autocomplete
+
+```php
+$autocomplete = [
+    'foo' => [
+        'bar' => [
+            'baz' => true,
+            'baz' => ['gaz','haz'],
+        ],
+    ],
+];
+$builder = new AutocompleteTreeBuilder($autocomplete, "->");
+
+$builder
+    ->add('formula', AceEditorType::class, [
+        'autocomplete_builder' => $keywords,
+    ]);
 ```

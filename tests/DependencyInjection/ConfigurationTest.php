@@ -2,30 +2,36 @@
 
 declare(strict_types=1);
 
-namespace Norzechowicz\AceEditorBundle\Tests\DependencyInjection;
+namespace AceEditorBundle\Tests\DependencyInjection;
 
-use Norzechowicz\AceEditorBundle\DependencyInjection\Configuration;
+use AceEditorBundle\DependencyInjection\Configuration;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Processor;
 
-class ConfigurationTest extends TestCase
+/**
+ * @internal
+ */
+final class ConfigurationTest extends TestCase
 {
-    public function testProcessConfiguration()
+    public function testProcessConfiguration(): void
     {
         $configuration = new Configuration();
         $processor = new Processor();
         $config = $processor->processConfiguration($configuration, []);
 
-        $this->assertArrayHasKey('autoinclude', $config);
-        $this->assertTrue($config['autoinclude']);
+        self::assertArrayHasKey('autoinclude', $config);
+        self::assertTrue($config['autoinclude']);
 
-        $this->assertArrayHasKey('base_path', $config);
-        $this->assertSame('vendor/ace', $config['base_path']);
+        self::assertArrayHasKey('base_path', $config);
+        self::assertSame('vendor/ace', $config['base_path']);
 
-        $this->assertArrayHasKey('debug', $config);
-        $this->assertFalse($config['debug']);
+        self::assertArrayHasKey('debug', $config);
+        self::assertFalse($config['debug']);
 
-        $this->assertArrayHasKey('noconflict', $config);
-        $this->assertTrue($config['noconflict']);
+        self::assertArrayHasKey('noconflict', $config);
+        self::assertTrue($config['noconflict']);
+
+        self::assertArrayHasKey('use_stimulus', $config);
+        self::assertNull($config['use_stimulus']);
     }
 }

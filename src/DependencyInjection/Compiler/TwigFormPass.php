@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Norzechowicz\AceEditorBundle\DependencyInjection\Compiler;
+namespace AceEditorBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -17,10 +17,10 @@ class TwigFormPass implements CompilerPassInterface
 
         $container->setParameter('twig.form.resources', array_merge(
             [
-            $container->getParameter('norzechowicz_ace_editor.ace_form.resource'),
-            $container->getParameter('norzechowicz_ace_editor.json_form.resource'),
+                $container->getParameter('ace_editor.form.resource'),
+                $container->getParameter('ace_editor.json_form.resource')
             ],
-            $container->getParameter('twig.form.resources')
+            (array) $container->getParameter('twig.form.resources')
         ));
     }
 }
