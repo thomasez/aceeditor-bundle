@@ -28,6 +28,8 @@ class AceEditorExtension extends Extension implements PrependExtensionInterface
         // With XmlFileLoader it does not.
         if ($fr = $container->getParameter('ace_editor.form.resource'))
             $container->setParameter('ace_editor.form.resource', '@'.$fr);
+        if ($fr = $container->getParameter('ace_editor.json_form.resource'))
+            $container->setParameter('ace_editor.json_form.resource', '@'.$fr);
     }
 
     /**
